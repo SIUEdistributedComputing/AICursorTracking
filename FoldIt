@@ -1,0 +1,100 @@
+#include <windows.h>
+#include <winuser.h>
+#include <iostream>
+#include <iomanip>
+#include <ctime>
+#include <cmath>
+#include <time.h>
+#include <cstdio>
+#include <conio.h>
+#include <dos.h>
+#include <unistd.h>
+#include <stdlib.h>
+
+using namespace std;
+
+int main()
+{
+	int i = 0;
+	int numOfPoints = 0;
+	double xSum = 0;
+	double xNewMean = 0;
+	double xOldMean = 0;
+	double xPercentChange = 0;
+	
+	double ySum = 0;
+	double yNewMean = 0;
+	double yOldMean = 0;
+	double yPercentChange = 0;
+	
+	double yArcElasticityX = 0;
+	
+while(i <= 12)
+{
+	
+POINT p;
+GetCursorPos(&p);
+
+cout<< "The cursor x is: " << p.x << " and y is: " << p.y << endl;
+cout << "The number of recorded points so far is   " << numOfPoints + 1 << endl;
+numOfPoints = numOfPoints + 1;
+
+//The 3 couts below show data about the change in the x coordinate
+xSum = xSum + p.x;
+cout << "This is sum   " << xSum << endl;
+xOldMean = xNewMean;
+xNewMean = xSum/numOfPoints;
+
+cout << "This is the new mean of X   " << xNewMean << endl;
+
+//Percent Change in X
+xPercentChange = 2*(xNewMean - xOldMean)/(xNewMean + xOldMean);
+cout << "The new percent change of X   " << xPercentChange << endl;
+
+//The 3 couts below show data about the change in the x coordinate
+ySum = ySum + p.y;
+cout << "This is sum   " << ySum << endl;
+yOldMean = yNewMean;
+yNewMean = ySum/numOfPoints;
+
+cout << "This is the new mean of Y   " << yNewMean << endl;
+
+//Percent Change in Y
+yPercentChange = 2*(yNewMean - yOldMean)/(yNewMean + yOldMean);
+cout << "The new percent change of Y   " << yPercentChange << endl;
+
+//The couts below show data about the change in the x coordinate compared to the y coordinates[ arc elasticity is good for now], (covariance, change in angle, and change in angle wrt time
+//Y Arc Elasticity of X
+yArcElasticityX = xPercentChange/yPercentChange;
+cout << "The Y Arc Elasticity with respect to X is   " << yArcElasticityX << endl;
+
+//Just for Spacing
+cout << endl;
+
+//The line below is the iteration for the while loop
+i = 3*i;
+
+//This is the clock that makes the program run every 3 seconds
+time_t start_time, cur_time;
+
+         time(&start_time);
+         do
+         {
+                 time(&cur_time);
+         }
+         while((cur_time - start_time) < 3);
+
+}
+
+
+return 0;
+}
+
+/* ALL THESE WOULD BE SOME OF TASKS FOR COMPETITORS, NOT US: Possible future improvements to FoldIt, run 24/7, use the name of the compound to figure out distribution 
+ * (for standard deviation and covariance and relate to percent change and arc elasticity respectively),
+ *minimize the screen size so it runs faster,
+ * allow increase of speed by use of a cloud server+
+ * or get it to send and read info from a database and perform calculations elsewhere
+ * utilize changes in sound due to loss or win in FoldIt */
+  
+ 
